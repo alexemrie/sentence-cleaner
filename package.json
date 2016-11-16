@@ -1,0 +1,26 @@
+{
+  "name": "sentence-cleaner",
+  "version": "1.0.0",
+  "description": "Package for cleaning whitespace and punctuation in sentence strings.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "sentence",
+    "cleaner",
+    "punctuation",
+    "capitalization",
+    "string",
+    "whitespace"
+  ],
+  "author": "Alex Emrie",
+  "repository": {
+    "url": "https://github.com/alexemrie/string-whitespace-punctuation-cleaner"
+  },
+  "homepage": "https://github.com/alexemrie/string-whitespace-punctuation-cleaner",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^3.1.2"
+  }
+}
