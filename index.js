@@ -64,16 +64,6 @@ var stringCleaner = function(string){
         string = string.trim();
         string = string.replace(/\s\s+/g, ' ');
 
-        // var missingWhitespace = string.match(/[a-zA-Z][,:;.!?][a-zA-Z]/g);
-        // if (missingWhitespace) {
-        //     missingWhitespace.forEach(function(missingSubstr){
-        //         var firstChar = missingSubstr[0];
-        //         var punctuation = missingSubstr.match(/[,:;.!?]/);
-        //         var lastChar = missingSubstr.substr(missingSubstr.length - 1);
-        //         string = string.replace(missingSubstr, firstChar + punctuation + " " + lastChar);
-        //     });
-        // }
-
         string = string.replace(/\s+\,/g, ',');
         string = string.replace(/\s+\:/g, ':');
         string = string.replace(/\s+\;/g, ';');
@@ -105,7 +95,8 @@ var stringCleaner = function(string){
         string = string.replace(/[.]\s+[.]+/g, '.');
         string = string.replace(/[!]\s+[!]+/g, '!');
         string = string.replace(/[?]\s+[?]+/g, '?');
-        return capitalizeMultipleSentence(string);
+
+        return string;
     };
 
     var punctuationSplitter = function(string, punctuationMark){
@@ -120,7 +111,8 @@ var stringCleaner = function(string){
     return {
       cleanString: function(string){
           var inputString = String(string);
-          var encrypted = punctuationCleaner(inputString);
+          var cleanString = punctuationCleaner(inputString);
+          var encrypted = capitalizeMultipleSentence(cleanString);
           var pattern = "#7#7";
           var regex = new RegExp(pattern, "g");
           var decrypted = encrypted.replace(regex, ".");
