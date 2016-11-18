@@ -1,4 +1,5 @@
 var acronymHelper = require('./helpers/acronym_helper')();
+var emailHelper = require('./helpers/email_helper')();
 
 var stringCleaner = function(string){
 
@@ -33,23 +34,64 @@ var stringCleaner = function(string){
     var capitalizeMultipleSentence = function(string) {
         var singlePuncSentence = string.match(/[.?!]/g) ? string : (string + ".");
 
-        var acronyms = acronymHelper.findAcronyms(singlePuncSentence);
-
-        if (acronyms.length >= 1) {
-            acronyms.forEach(function(elem){
-                var encryptedAcronym = elem.replace(/[.]/g, "#7#7");
-                singlePuncSentence = singlePuncSentence.replace(elem, encryptedAcronym);
-            })
-
-        } else {
-            singlePuncSentence = addMissingWhitespace(singlePuncSentence);
-        }
-
         var periodSentence = punctuationSplitter(singlePuncSentence, ".");
         var exclamationSentence = punctuationSplitter(periodSentence, "!");
         var questionSentence = punctuationSplitter(exclamationSentence, "?");
 
         return questionSentence;
+    };
+
+    var decrypt = function(string) {
+        var patComma = new RegExp("#1#1", "g");
+        var patColon = new RegExp("#2#2", "g");
+        var patSemiColon = new RegExp("#3#3", "g");
+        var patPeriod = new RegExp("#4#4", "g");
+        var patExclamation = new RegExp("#5#5", "g");
+        var patQuestion = new RegExp("#6#6", "g");
+
+        string = string.replace(patComma, "," );
+        string = string.replace(patColon, ":" );
+        string = string.replace(patSemiColon, ";" );
+        string = string.replace(patPeriod, "." );
+        string = string.replace(patExclamation, "!" );
+        string = string.replace(patQuestion, "?" );
+
+        string = string.replace(/[.][.]+/g, '.');
+
+        return string;
+    };
+
+    var encrypt = function(string){
+        // Encrypt Acronyms
+        var acronymArray = acronymHelper.findAcronyms(string);
+        var emailArray = emailHelper.findEmails(string);
+
+        if (acronymArray.length >= 1) {
+            acronymArray.forEach(function(elem){
+                var encryptedAcronym = elem.replace(/[.]/g, "#4#4");
+                string = string.replace(elem, encryptedAcronym);
+            })
+        }
+
+        // Encrypt Emails
+        if (emailArray.length >= 1) {
+            console.log("Emails: ", emailArray);
+            emailArray.forEach(function(elem){
+                var encryptedEmail = elem;
+                encryptedEmail = encryptedEmail.replace(/[,]+/g, "#1#1");
+                encryptedEmail = encryptedEmail.replace(/[:]+/g, "#2#2");
+                encryptedEmail = encryptedEmail.replace(/[;]+/g, "#3#3");
+                encryptedEmail = encryptedEmail.replace(/[.]+/g, "#4#4");
+                encryptedEmail = encryptedEmail.replace(/[!]+/g, "#5#5");
+                encryptedEmail = encryptedEmail.replace(/[?]+/g, "#6#6");
+
+                string = string.replace(elem, encryptedEmail);
+            })
+        }
+
+        string = addMissingWhitespace(string);
+
+        return string;
     };
 
     var punctuationCleaner = function(string){
@@ -111,11 +153,10 @@ var stringCleaner = function(string){
     return {
       cleanString: function(string){
           var inputString = String(string);
-          var cleanString = punctuationCleaner(inputString);
-          var encrypted = capitalizeMultipleSentence(cleanString);
-          var pattern = "#7#7";
-          var regex = new RegExp(pattern, "g");
-          var decrypted = encrypted.replace(regex, ".");
+          var cleaned = punctuationCleaner(inputString);
+          var encrypted = encrypt(cleaned);
+          var capitalized = capitalizeMultipleSentence(encrypted);
+          var decrypted = decrypt(capitalized);
           return decrypted;
       }
     };

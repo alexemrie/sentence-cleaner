@@ -1,4 +1,4 @@
-var acronyms = function(){
+var acronymHelper = function(){
     var that = this;
     return {
         findAcronyms: function(string){
@@ -35,4 +35,4 @@ var acronyms = function(){
     }
 };
 
-module.exports = acronyms;
+module.exports = acronymHelper;
