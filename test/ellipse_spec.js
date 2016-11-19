@@ -62,5 +62,10 @@ describe('Ellipses', function() {
             var correctEllipse = "The ceremony honored twelve brilliant athletes . . . visiting the U.S.";
             assert.equal(sentenceCleaner(incorrectEllipse), correctEllipse);
         });
+
+        it('ellipse next to quote mark', function () {
+            var ellipseSentence = "'I\'m wondering …' Juan said, bemused.";
+            assert.equal(sentenceCleaner(ellipseSentence), ellipseSentence);
+        });
     });
 });
