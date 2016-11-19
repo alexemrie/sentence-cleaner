@@ -96,4 +96,21 @@ describe('URL', function(){
             });
         });
     });
+
+    describe('URL: Sentence Cleaner', function() {
+        it('url: middle of sentence', function () {
+            var urlSentence = "Sentence with http://url.middle.com in it.";
+            assert.equal(sentenceCleaner(urlSentence), urlSentence);
+        });
+
+        it('url: end of sentence', function() {
+            var urlSentence = "Sentence with http://url.middle.com.";
+            assert.equal(sentenceCleaner(urlSentence), urlSentence);
+        });
+
+        it('url: multiple urls', function() {
+            var urlSentence = "Sentence with multiple.sentence.com middle.sentence.io in them.";
+            assert.equal(sentenceCleaner(urlSentence), urlSentence);
+        });
+    });
 });

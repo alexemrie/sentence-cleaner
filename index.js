@@ -1,5 +1,6 @@
 var acronymHelper = require('./helpers/acronym_helper')();
 var emailHelper = require('./helpers/email_helper')();
+var urlHelper = require('./helpers/url_helper')();
 
 var stringCleaner = function(string){
 
@@ -65,6 +66,7 @@ var stringCleaner = function(string){
         // Encrypt Acronyms
         var acronymArray = acronymHelper.findAcronyms(string);
         var emailArray = emailHelper.findEmails(string);
+        var urlArray = urlHelper.findURL(string);
 
         if (acronymArray.length >= 1) {
             acronymArray.forEach(function(elem){
@@ -87,6 +89,22 @@ var stringCleaner = function(string){
                 string = string.replace(elem, encryptedEmail);
             })
         }
+
+        // Encrypt URLs
+        if (urlArray.length >= 1) {
+            urlArray.forEach(function(elem){
+                var encryptedURL = elem;
+                encryptedURL = encryptedURL.replace(/[,]+/g, "#1#1");
+                encryptedURL = encryptedURL.replace(/[:]+/g, "#2#2");
+                encryptedURL = encryptedURL.replace(/[;]+/g, "#3#3");
+                encryptedURL = encryptedURL.replace(/[.]+/g, "#4#4");
+                encryptedURL = encryptedURL.replace(/[!]+/g, "#5#5");
+                encryptedURL = encryptedURL.replace(/[?]+/g, "#6#6");
+
+                string = string.replace(elem, encryptedURL);
+            })
+        }
+
 
         string = addMissingWhitespace(string);
 
