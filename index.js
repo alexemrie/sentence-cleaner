@@ -33,7 +33,7 @@ var stringCleaner = function(string){
     };
 
     var capitalizeMultipleSentence = function(string) {
-        var singlePuncSentence = string.match(/[.?!]/g) ? string : (string + ".");
+        var singlePuncSentence = string.match(/[.?!]/g) || string.slice(-1) != "#4#4" ? string : (string + ".");
 
         var periodSentence = punctuationSplitter(singlePuncSentence, ".");
         var exclamationSentence = punctuationSplitter(periodSentence, "!");
@@ -57,17 +57,15 @@ var stringCleaner = function(string){
         string = string.replace(patExclamation, "!" );
         string = string.replace(patQuestion, "?" );
 
-        string = string.replace(/[.][.]+/g, '.');
-
         return string;
     };
 
     var encrypt = function(string){
-        // Encrypt Acronyms
         var acronymArray = acronymHelper.findAcronyms(string);
         var emailArray = emailHelper.findEmails(string);
         var urlArray = urlHelper.findURL(string);
 
+        // Encrypt Acronyms
         if (acronymArray.length >= 1) {
             acronymArray.forEach(function(elem){
                 var encryptedAcronym = elem.replace(/[.]/g, "#4#4");
@@ -107,7 +105,6 @@ var stringCleaner = function(string){
 
 
         string = addMissingWhitespace(string);
-
         return string;
     };
 
@@ -122,6 +119,16 @@ var stringCleaner = function(string){
         // whitespace
         string = string.trim();
         string = string.replace(/\s\s+/g, ' ');
+
+        // encrypt ellipses ("..." OR ". . .")
+        var ellipsePat_one = "[.]\\s[.]\\s[.]";
+        var ellipsePat_two = "[.][.][.]";
+
+        var ellipseRegex_one = new RegExp(ellipsePat_one,"g");
+        var ellipseRegex_two = new RegExp(ellipsePat_two,"g");
+
+        string = string.replace(ellipseRegex_one, "#4#4 #4#4 #4#4");
+        string = string.replace(ellipseRegex_two, "#4#4#4#4#4#4");
 
         string = string.replace(/\s+\,/g, ',');
         string = string.replace(/\s+\:/g, ':');
@@ -162,6 +169,7 @@ var stringCleaner = function(string){
         var pattern = "[" + String(punctuationMark) + "]+" + "\\" + "\s+";
         var regex = new RegExp(pattern,"g");
         var sentence = capitalizeSentence(string.split(regex), punctuationMark);
+
         return sentence;
     };
 
@@ -174,6 +182,7 @@ var stringCleaner = function(string){
           var encrypted = encrypt(cleaned);
           var capitalized = capitalizeMultipleSentence(encrypted);
           var decrypted = decrypt(capitalized);
+
           return decrypted;
       }
     };
