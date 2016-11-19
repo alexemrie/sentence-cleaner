@@ -1,4 +1,5 @@
 var acronymHelper = require('./helpers/acronym_helper')();
+var ellipseHelper = require('./helpers/ellipse_helper')();
 var emailHelper = require('./helpers/email_helper')();
 var urlHelper = require('./helpers/url_helper')();
 
@@ -121,14 +122,7 @@ var stringCleaner = function(string){
         string = string.replace(/\s\s+/g, ' ');
 
         // encrypt ellipses ("..." OR ". . .")
-        var ellipsePat_one = "[.]\\s[.]\\s[.]";
-        var ellipsePat_two = "[.][.][.]";
-
-        var ellipseRegex_one = new RegExp(ellipsePat_one,"g");
-        var ellipseRegex_two = new RegExp(ellipsePat_two,"g");
-
-        string = string.replace(ellipseRegex_one, "#4#4 #4#4 #4#4");
-        string = string.replace(ellipseRegex_two, "#4#4#4#4#4#4");
+        string = ellipseHelper.encryptString(string);
 
         string = string.replace(/\s+\,/g, ',');
         string = string.replace(/\s+\:/g, ':');
