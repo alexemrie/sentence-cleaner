@@ -75,7 +75,6 @@ var stringCleaner = function(string){
 
         // Encrypt Emails
         if (emailArray.length >= 1) {
-            console.log("Emails: ", emailArray);
             emailArray.forEach(function(elem){
                 var encryptedEmail = elem;
                 encryptedEmail = encryptedEmail.replace(/[,]+/g, "#1#1");
