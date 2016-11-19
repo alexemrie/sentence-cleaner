@@ -7,13 +7,13 @@ describe('Ellipses', function() {
         it('encrypts no space ellipse', function () {
             var initial = "The ceremony honored twelve brilliant athletes...visiting.";
             var encrypted = "The ceremony honored twelve brilliant athletes #4#4#4#4#4#4 visiting.";
-            assert.equal(ellipseHelper.encryptString(initial), encrypted);
+            assert.equal(ellipseHelper.encryptEllipse(initial), encrypted);
         });
 
         it('encrypts spaced ellipse', function () {
             var initial = "The ceremony honored twelve brilliant athletes. . .visiting.";
             var encrypted = "The ceremony honored twelve brilliant athletes #4#4 #4#4 #4#4 visiting.";
-            assert.equal(ellipseHelper.encryptString(initial), encrypted);
+            assert.equal(ellipseHelper.encryptEllipse(initial), encrypted);
         });
 
     });

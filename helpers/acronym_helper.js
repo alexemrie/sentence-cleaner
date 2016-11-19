@@ -14,6 +14,19 @@ var acronymHelper = function(){
             }
 
             return result;
+        },
+        encryptAcronyms: function(string) {
+            var acronymArray = this.findAcronyms(string);
+
+            if (acronymArray.length >= 1) {
+                acronymArray.forEach(function(elem){
+                    var encryptedAcronym = elem;
+                    encryptedAcronym = encryptedAcronym.replace(/[.]+/g, "#4#4");
+                    string = string.replace(elem, encryptedAcronym);
+                })
+            }
+
+            return string;
         }
     }
 };

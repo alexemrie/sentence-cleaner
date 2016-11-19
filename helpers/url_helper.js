@@ -31,6 +31,25 @@ var urlHelper = function(){
             });
 
             return result;
+        },
+        encryptURL: function(string) {
+            var urlArray = this.findURL(string);
+
+            if (urlArray.length >= 1) {
+                urlArray.forEach(function(elem){
+                    var encryptedURL = elem;
+                    encryptedURL = encryptedURL.replace(/[,]+/g, "#1#1");
+                    encryptedURL = encryptedURL.replace(/[:]+/g, "#2#2");
+                    encryptedURL = encryptedURL.replace(/[;]+/g, "#3#3");
+                    encryptedURL = encryptedURL.replace(/[.]+/g, "#4#4");
+                    encryptedURL = encryptedURL.replace(/[!]+/g, "#5#5");
+                    encryptedURL = encryptedURL.replace(/[?]+/g, "#6#6");
+
+                    string = string.replace(elem, encryptedURL);
+                })
+            }
+
+            return string;
         }
     }
 };

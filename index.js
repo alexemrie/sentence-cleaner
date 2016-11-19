@@ -1,7 +1,4 @@
-var acronymHelper = require('./helpers/acronym_helper')();
-var ellipseHelper = require('./helpers/ellipse_helper')();
-var emailHelper = require('./helpers/email_helper')();
-var urlHelper = require('./helpers/url_helper')();
+var encryptionHelper = require('./helpers/encrypt_helper')();
 
 var stringCleaner = function(string){
 
@@ -62,51 +59,7 @@ var stringCleaner = function(string){
     };
 
     var encrypt = function(string){
-        var acronymArray = acronymHelper.findAcronyms(string);
-        var emailArray = emailHelper.findEmails(string);
-        var urlArray = urlHelper.findURL(string);
-
-        // Encrypt Acronyms
-        if (acronymArray.length >= 1) {
-            acronymArray.forEach(function(elem){
-                var encryptedAcronym = elem.replace(/[.]/g, "#4#4");
-                string = string.replace(elem, encryptedAcronym);
-            })
-        }
-
-        // Encrypt Emails
-        if (emailArray.length >= 1) {
-            emailArray.forEach(function(elem){
-                var encryptedEmail = elem;
-                encryptedEmail = encryptedEmail.replace(/[,]+/g, "#1#1");
-                encryptedEmail = encryptedEmail.replace(/[:]+/g, "#2#2");
-                encryptedEmail = encryptedEmail.replace(/[;]+/g, "#3#3");
-                encryptedEmail = encryptedEmail.replace(/[.]+/g, "#4#4");
-                encryptedEmail = encryptedEmail.replace(/[!]+/g, "#5#5");
-                encryptedEmail = encryptedEmail.replace(/[?]+/g, "#6#6");
-
-                string = string.replace(elem, encryptedEmail);
-            })
-        }
-
-        // Encrypt URLs
-        if (urlArray.length >= 1) {
-            urlArray.forEach(function(elem){
-                var encryptedURL = elem;
-                encryptedURL = encryptedURL.replace(/[,]+/g, "#1#1");
-                encryptedURL = encryptedURL.replace(/[:]+/g, "#2#2");
-                encryptedURL = encryptedURL.replace(/[;]+/g, "#3#3");
-                encryptedURL = encryptedURL.replace(/[.]+/g, "#4#4");
-                encryptedURL = encryptedURL.replace(/[!]+/g, "#5#5");
-                encryptedURL = encryptedURL.replace(/[?]+/g, "#6#6");
-
-                string = string.replace(elem, encryptedURL);
-            })
-        }
-
-
-        string = addMissingWhitespace(string);
-        return string;
+        return encryptionHelper.encryptString(string);
     };
 
     var punctuationCleaner = function(string){
@@ -120,9 +73,6 @@ var stringCleaner = function(string){
         // whitespace
         string = string.trim();
         string = string.replace(/\s\s+/g, ' ');
-
-        // encrypt ellipses ("..." OR ". . .")
-        string = ellipseHelper.encryptString(string);
 
         string = string.replace(/\s+\,/g, ',');
         string = string.replace(/\s+\:/g, ':');
@@ -156,6 +106,8 @@ var stringCleaner = function(string){
         string = string.replace(/[!]\s+[!]+/g, '!');
         string = string.replace(/[?]\s+[?]+/g, '?');
 
+        string = addMissingWhitespace(string);
+
         return string;
     };
 
@@ -172,9 +124,9 @@ var stringCleaner = function(string){
     return {
       cleanString: function(string){
           var inputString = String(string);
-          var cleaned = punctuationCleaner(inputString);
-          var encrypted = encrypt(cleaned);
-          var capitalized = capitalizeMultipleSentence(encrypted);
+          var encrypted = encrypt(inputString);
+          var cleaned = punctuationCleaner(encrypted);
+          var capitalized = capitalizeMultipleSentence(cleaned);
           var decrypted = decrypt(capitalized);
 
           return decrypted;

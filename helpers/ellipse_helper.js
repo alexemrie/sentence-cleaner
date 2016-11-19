@@ -1,7 +1,7 @@
 var ellipseHelper = function(){
     var that = this;
     return {
-        encryptString: function(string){
+        encryptEllipse: function(string){
 
             // encrypt ellipses ("..." OR ". . .")
             var ellipsePat_one = "[.]\\s[.]\\s[.]";
