@@ -12,6 +12,23 @@ var encryptHelper = function(){
             string = urlHelper.encryptURL(string);
 
             return string;
+        },
+        decryptString: function(string) {
+            var patComma = new RegExp("#1#1", "g");
+            var patColon = new RegExp("#2#2", "g");
+            var patSemiColon = new RegExp("#3#3", "g");
+            var patPeriod = new RegExp("#4#4", "g");
+            var patExclamation = new RegExp("#5#5", "g");
+            var patQuestion = new RegExp("#6#6", "g");
+
+            string = string.replace(patComma, "," );
+            string = string.replace(patColon, ":" );
+            string = string.replace(patSemiColon, ";" );
+            string = string.replace(patPeriod, "." );
+            string = string.replace(patExclamation, "!" );
+            string = string.replace(patQuestion, "?" );
+
+            return string;
         }
     }
 };

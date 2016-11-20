@@ -40,28 +40,6 @@ var stringCleaner = function(string){
         return questionSentence;
     };
 
-    var decrypt = function(string) {
-        var patComma = new RegExp("#1#1", "g");
-        var patColon = new RegExp("#2#2", "g");
-        var patSemiColon = new RegExp("#3#3", "g");
-        var patPeriod = new RegExp("#4#4", "g");
-        var patExclamation = new RegExp("#5#5", "g");
-        var patQuestion = new RegExp("#6#6", "g");
-
-        string = string.replace(patComma, "," );
-        string = string.replace(patColon, ":" );
-        string = string.replace(patSemiColon, ";" );
-        string = string.replace(patPeriod, "." );
-        string = string.replace(patExclamation, "!" );
-        string = string.replace(patQuestion, "?" );
-
-        return string;
-    };
-
-    var encrypt = function(string){
-        return encryptionHelper.encryptString(string);
-    };
-
     var punctuationCleaner = function(string){
         /*
             remove multiple whitespace, replace with single space
@@ -122,10 +100,10 @@ var stringCleaner = function(string){
     return {
       cleanString: function(input){
           var inputString = String(input);
-          var encrypted = encrypt(inputString);
+          var encrypted = encryptionHelper.encryptString(inputString);
           var cleaned = punctuationCleaner(encrypted);
           var capitalized = capitalizeMultipleSentence(cleaned);
-          var decrypted = decrypt(capitalized);
+          var decrypted = encryptionHelper.decryptString(capitalized);
 
           return decrypted;
       }
