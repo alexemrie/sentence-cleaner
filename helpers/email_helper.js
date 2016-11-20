@@ -1,5 +1,4 @@
 var emailHelper = function(){
-    var that = this;
     return {
         findEmails: function(string){
             var wordArray = string.split(" ");

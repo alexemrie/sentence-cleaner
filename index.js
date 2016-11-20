@@ -119,11 +119,9 @@ var stringCleaner = function(string){
         return sentence;
     };
 
-    var that = this;
-
     return {
-      cleanString: function(string){
-          var inputString = String(string);
+      cleanString: function(input){
+          var inputString = String(input);
           var encrypted = encrypt(inputString);
           var cleaned = punctuationCleaner(encrypted);
           var capitalized = capitalizeMultipleSentence(cleaned);

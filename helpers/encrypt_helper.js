@@ -4,7 +4,6 @@ var emailHelper = require('./email_helper')();
 var urlHelper = require('./url_helper')();
 
 var encryptHelper = function(){
-    var that = this;
     return {
         encryptString: function(string){
             string = acronymHelper.encryptAcronyms(string);

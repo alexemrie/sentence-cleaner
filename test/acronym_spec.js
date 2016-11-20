@@ -4,22 +4,28 @@ var sentenceCleaner = require('./../index');
 
 describe('Acronyms', function(){
     describe('Acronym Helper', function() {
-        it('finds single acronym in sentence', function() {
+        it('uppercase: finds single acronym in sentence', function() {
             var acronymSentence = "Sentence with U.S.A. in it.";
             assert.deepEqual(acronymHelper.findAcronyms(acronymSentence), ["U.S.A."]);
             assert.deepEqual(acronymHelper.findAcronyms(acronymSentence).length, 1);
         });
 
-        it('finds multiple acronyms in sentence', function() {
+        it('uppercase: finds multiple acronyms in sentence', function() {
             var acronymSentence = "Sentence with U.S.A. in A.B.C. it.";
             assert.deepEqual(acronymHelper.findAcronyms(acronymSentence), ["U.S.A.", "A.B.C."]);
             assert.deepEqual(acronymHelper.findAcronyms(acronymSentence).length, 2);
         });
 
-        it('finds acronym at end of sentence', function() {
+        it('uppercase: finds acronym at end of sentence', function() {
             var acronymSentence = "Sentence with U.S.A.";
             assert.deepEqual(acronymHelper.findAcronyms(acronymSentence), ["U.S.A."]);
             assert.deepEqual(acronymHelper.findAcronyms(acronymSentence).length, 1);
+        });
+
+        it('lowercase: recognizes am/pm as acronym', function() {
+            var acronymSentence = "Sentence with a.m.";
+            assert.deepEqual(acronymHelper.findLowerCaseAcronyms(acronymSentence), ["a.m."]);
+            assert.deepEqual(acronymHelper.findLowerCaseAcronyms(acronymSentence).length, 1);
         });
     });
 
@@ -36,6 +42,11 @@ describe('Acronyms', function(){
 
         it('acronyms: end of sentence, 2 sentences', function() {
             var acronymSentence = "Sentence with A.C.R.O.N.Y.M.S. Start of a new sentence.";
+            assert.equal(sentenceCleaner(acronymSentence), acronymSentence);
+        });
+
+        it('acronyms: recognizes a.m./p.m.', function() {
+            var acronymSentence = "Sentence with time 7 a.m. in it.";
             assert.equal(sentenceCleaner(acronymSentence), acronymSentence);
         });
 

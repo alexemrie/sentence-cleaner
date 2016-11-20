@@ -1,5 +1,4 @@
 var urlHelper = function(){
-    var that = this;
     return {
         findURL: function(string){
             var wordArray = string.split(" ");
