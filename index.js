@@ -1,6 +1,6 @@
 var encryptionHelper = require('./helpers/encrypt_helper')();
 
-var stringCleaner = function(string){
+var stringCleaner = function(){
 
     var addMissingWhitespace = function(string){
         var missingWhitespace = string.match(/[a-zA-Z][,:;.!?][a-zA-Z]/g);
@@ -17,23 +17,38 @@ var stringCleaner = function(string){
     };
 
     var capitalizeFirstLetter = function(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
+        for(var i = 0; i < string.length ; i++) {
+            if (string.charAt(i).match(/[a-zA-Z]/g)) {
+                string = string.substring(0, i) + string.charAt(i).toUpperCase() + string.substring(i+1);
+                return string;
+            }
+        }
     };
 
     var capitalizeSentence = function(array, punctuationMark) {
-        return array.map(function(elem){
-            if (elem.slice(-1).match(/[a-zA-Z]/)) {
-                return capitalizeFirstLetter(elem) + punctuationMark;
-            } else {
+        if (punctuationMark == "." || punctuationMark == "!" || punctuationMark == "?") {
+            return array.map(function(elem){
+                if (elem.slice(-1).match(/[a-zA-Z]/)) {
+                    return capitalizeFirstLetter(elem) + punctuationMark;
+                } else {
+                    return capitalizeFirstLetter(elem);
+                }
+            }).join(" ");
+        } else {
+            return array.map(function(elem){
                 return capitalizeFirstLetter(elem);
-            }
-        }).join(" ");
+            }).join("#4#4'");
+        }
     };
 
     var capitalizeMultipleSentence = function(string) {
         var singlePuncSentence = string.match(/[.?!]/g) || string.slice(-1) != "#4#4" ? string : (string + ".");
 
-        var periodSentence = punctuationSplitter(singlePuncSentence, ".");
+        var pattern = "[" + String(".") + "]" + "\'";
+        var periodQuote = new RegExp(pattern,"g");
+
+        var periodQuoteSentence = periodQuoteSplitter(singlePuncSentence, periodQuote);
+        var periodSentence = punctuationSplitter(periodQuoteSentence, ".");
         var exclamationSentence = punctuationSplitter(periodSentence, "!");
         var questionSentence = punctuationSplitter(exclamationSentence, "?");
 
@@ -87,6 +102,11 @@ var stringCleaner = function(string){
         string = addMissingWhitespace(string);
 
         return string;
+    };
+
+    var periodQuoteSplitter = function(string, periodQuoteRegex){
+        var sentence = capitalizeSentence(string.split(periodQuoteRegex), ".'");
+        return sentence;
     };
 
     var punctuationSplitter = function(string, punctuationMark){

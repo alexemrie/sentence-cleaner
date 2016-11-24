@@ -47,7 +47,6 @@ var acronymHelper = function(){
                     var encryptedLowerCaseAcronym = elem;
                     encryptedLowerCaseAcronym = encryptedLowerCaseAcronym.replace(/[.]+/g, "#4#4");
                     string = string.replace(elem, encryptedLowerCaseAcronym);
-                    console.log("Result: ", string);
                 })
             }
 
