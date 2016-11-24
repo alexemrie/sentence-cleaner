@@ -66,6 +66,10 @@ describe('Punctuation', function() {
                 assert.equal(sentenceCleaner("Duplicate comma period,."), "Duplicate comma period.");
             });
 
+            it('mixed duplicate replace with last punctuation: question mark - exclamation point', function() {
+                assert.equal(sentenceCleaner("Duplicate question exclamation?!"), "Duplicate question exclamation!");
+            });
+
             it('mixed duplicate replace with last punctuation: comma - question mark', function() {
                 assert.equal(sentenceCleaner("Duplicate comma question mark,?"), "Duplicate comma question mark?");
             });
