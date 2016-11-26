@@ -27,6 +27,12 @@ describe('Acronyms', function(){
             assert.deepEqual(acronymHelper.findLowerCaseAcronyms(acronymSentence), ["a.m."]);
             assert.deepEqual(acronymHelper.findLowerCaseAcronyms(acronymSentence).length, 1);
         });
+
+        it('lowercase: recognizes e.g.', function() {
+            var acronymSentence = "Sentence with e.g.";
+            assert.deepEqual(acronymHelper.findLowerCaseAcronyms(acronymSentence), ["e.g."]);
+            assert.deepEqual(acronymHelper.findLowerCaseAcronyms(acronymSentence).length, 1);
+        });
     });
 
     describe('Acronym: Sentence Cleaner', function(){
