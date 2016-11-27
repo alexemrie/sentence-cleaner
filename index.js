@@ -44,10 +44,7 @@ var stringCleaner = function(){
     var capitalizeMultipleSentence = function(string) {
         var singlePuncSentence = string.match(/[.?!]/g) || string.slice(-1) != "#4#4" ? string : (string + ".");
 
-        var pattern = "[" + String(".") + "]" + "\'";
-        var periodQuote = new RegExp(pattern,"g");
-
-        var periodQuoteSentence = periodQuoteSplitter(singlePuncSentence, periodQuote);
+        var periodQuoteSentence = periodQuoteSplitter(singlePuncSentence);
         var periodSentence = punctuationSplitter(periodQuoteSentence, ".");
         var exclamationSentence = punctuationSplitter(periodSentence, "!");
         var questionSentence = punctuationSplitter(exclamationSentence, "?");
@@ -104,7 +101,10 @@ var stringCleaner = function(){
         return string;
     };
 
-    var periodQuoteSplitter = function(string, periodQuoteRegex){
+    var periodQuoteSplitter = function(string){
+        var pattern = "[" + String(".") + "]" + "\'";
+        var periodQuoteRegex = new RegExp(pattern,"g");
+
         var sentence = capitalizeSentence(string.split(periodQuoteRegex), ".'");
         return sentence;
     };
