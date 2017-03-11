@@ -55,3 +55,8 @@ sentenceCleaner("Hello , world.")          // => "Hello, world."
 sentenceCleaner("Hello.World.")            // => "Hello. World."
 
 ```
+
+Usage
+-----
+
+Find this package useful? Support it on [GitHugz](http://www.githugz.com/projects/npm/sentence-cleaner)!
